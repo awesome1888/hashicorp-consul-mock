@@ -9,8 +9,8 @@
   },
   "scripts": {
     "build": "npm-run-all --parallel build.*",
-    "build.server": "webpack --config webpack.server.js --mode production --watch",
-    "build.client": "webpack --config webpack.client.js --mode production --watch",
+    "build.server": "webpack --config webpack.server.js --mode production",
+    "build.client": "webpack --config webpack.client.js --mode production",
     "build.dev": "npm-run-all --parallel build.*.dev",
     "build.server.dev": "webpack --config webpack.server.js --mode development --watch",
     "build.client.dev": "webpack --config webpack.client.js --mode development --watch",
