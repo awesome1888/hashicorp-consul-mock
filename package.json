@@ -14,7 +14,8 @@
     "build.dev": "npm-run-all --parallel build.*.dev",
     "build.server.dev": "webpack --config webpack.server.js --mode development --watch",
     "build.client.dev": "webpack --config webpack.client.js --mode development --watch",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test.manual": "jest --watch"
   },
   "keywords": [
     "this",
