@@ -1,7 +1,6 @@
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
-import logger from './logger';
 
 import attachHomeAPI from '../api/home';
 
