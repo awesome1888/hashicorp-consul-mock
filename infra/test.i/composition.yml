@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ../../
+      dockerfile: infra/test.i/tests.dockerfile
+    expose:
+      - '3010'
+    ports:
+      - '3010'
+    depends_on:
+    environment:

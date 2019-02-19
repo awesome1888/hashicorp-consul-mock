@@ -1,28 +1,73 @@
 const path = require('path');
-const merge = require('webpack-merge');
-const baseConfig = require('./webpack.base.js');
-const webpackNodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals');
 const webpack = require('webpack');
+const NodemonPlugin = require('nodemon-webpack-plugin');
 
-const config = {
-    // inform webpack we are building for nodejs
-    target: 'node',
+module.exports = (env, argv) => {
+    env = env || {};
+    const development =
+      argv.mode === 'development' || env.NODE_ENV === 'development';
 
-    // the name of the root file
-    entry: './src/index.js',
-
-    // where to put the output bundle
-    output: {
-        filename: 'server.js',
-        path: path.resolve(__dirname, 'build'),
-        libraryTarget: 'commonjs2',
-    },
-
-    externals: [webpackNodeExternals()],
-
-    plugins: [
-        new webpack.BannerPlugin({ banner: "#!/usr/bin/env node", raw: true }),
-    ],
+    return {
+        entry: path.join(__dirname, 'src/index.js'),
+        target: 'node',
+        node: {
+            __filename: true,
+            __dirname: true,
+        },
+        externals: [nodeExternals()],
+        mode: development ? 'development' : 'production',
+        output: {
+            libraryTarget: 'commonjs',
+            path: path.join(__dirname, 'build'),
+            filename: '[name].js',
+        },
+        resolve: {
+            extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.(graphql|gql)$/,
+                    exclude: /node_modules/,
+                    loader: 'graphql-tag/loader',
+                },
+                {
+                    test: /\.js$/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: {
+                                presets: [
+                                    [
+                                        '@babel/env',
+                                        {
+                                            targets: { node: '8.10' },
+                                        },
+                                    ],
+                                ],
+                                plugins: ['@babel/plugin-proposal-object-rest-spread'],
+                            },
+                        },
+                    ],
+                },
+                {
+                    test: /\.tsx?$/,
+                    use: 'ts-loader',
+                    exclude: /node_modules/,
+                },
+            ],
+        },
+        plugins: [
+            new webpack.ProvidePlugin({
+                _: path.join(__dirname, `src/lib/lodash.js`),
+                logger: path.join(__dirname, `src/lib/logger.js`),
+            }),
+            new webpack.DefinePlugin({
+                __DEV__: development,
+                __TEST__: false,
+            }),
+            new NodemonPlugin(),
+        ],
+    };
 };
-
-module.exports = merge(baseConfig, config);

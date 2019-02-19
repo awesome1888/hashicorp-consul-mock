@@ -1,0 +1,48 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["prettier", "prettier/react"],
+  "plugins": ["prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "react/display-name": 0,
+    "array-bracket-spacing": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "react/no-deprecated": false,
+    "computed-property-spacing": 0,
+    "react/forbid-prop-types": 0,
+    "no-underscore-dangle": 0,
+    "no-plusplus": 0,
+    "no-param-reassign": 0,
+    "camelcase": 0,
+    "react/jsx-filename-extension": 0,
+    "declaration-block-semicolon-newline-after": "always",
+    "prefer-promise-reject-errors": 0
+  },
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "globals": {
+    "mockContext": true,
+    "cy": true,
+    "Cypress": true,
+    "__DEV__": true,
+    "__TEST__": true,
+    "createError": true
+  },
+  "settings": {
+    "react": {
+      "version": "16.3.2"
+    }
+  },
+  "env": {
+    "es6": true,
+    "browser": true,
+    "node": true,
+    "jest": true
+  }
+}
