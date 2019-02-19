@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 
-import attachHomeAPI from '../api/home';
+import attachKVAPI from '../api/kv';
 
 export default class Application {
   static async make() {
-    logger.info('Initializing the application');
+    // logger.info('Initializing the application');
 
     const instance = new this();
 
@@ -53,11 +53,20 @@ export default class Application {
     // );
 
     // write the middleware here
-    attachHomeAPI(app);
+    // app.all('*', (req, res, next) => {
+    //     // console.dir(req);
+    //     console.dir('========');
+    //     console.dir(req.method);
+    //     console.dir(req.path);
+    //     console.dir(req.query);
+    //     console.dir(req.body);
+    //     next();
+    // });
+    attachKVAPI(app);
 
     instance._express = app;
 
-    logger.info('Application initialized');
+    // logger.info('Application initialized');
 
     return instance;
   }
@@ -85,7 +94,10 @@ export default class Application {
 
     return new Promise(resolve => {
       this._server = this._express.listen({ port }, () => {
-        logger.info(`🚀 Server ready at http://${hostname}:${port}`, !__TEST__);
+        logger.info(
+          `🚀 Consul mock is ready at http://${hostname}:${port}`,
+          !__TEST__,
+        );
         resolve();
       });
     });

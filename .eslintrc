@@ -32,7 +32,7 @@
     "Cypress": true,
     "__DEV__": true,
     "__TEST__": true,
-    "logger"
+    "logger": true
   },
   "settings": {
     "react": {
