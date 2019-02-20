@@ -15,16 +15,21 @@ export default app => {
         const env = process.env[path];
         if (typeof env !== 'undefined') {
           logger.info(`Requested: ${path}, sent: ${env}`);
-          // res.setHeader('Content-Type', 'application/json');
+
+          res.setHeader('Content-Type', 'application/json');
           res.status(200);
-
-          res.send({
-            Value: env,
-          });
-
-          // .send(JSON.stringify({
-          //     Value: env,
-          // }));
+          res.send(
+            JSON.stringify([
+              {
+                LockIndex: 0,
+                Key: path,
+                Flags: 0,
+                Value: env,
+                CreateIndex: 999999,
+                ModifyIndex: 999999,
+              },
+            ]),
+          );
         } else {
           logger.info(`Requested: ${path}, but nothing found`);
           res.status(404).send('not found');
