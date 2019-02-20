@@ -16,7 +16,7 @@ export default app => {
         if (typeof env !== 'undefined') {
           logger.info(`Requested: ${path}, sent: ${env}`);
 
-          res.setHeader('Content-Type', 'application/json');
+          res.setHeader('Content-Type', 'application/json; charset=utf-8');
           res.status(200);
           res.send(
             JSON.stringify([
@@ -24,7 +24,7 @@ export default app => {
                 LockIndex: 0,
                 Key: path,
                 Flags: 0,
-                Value: env,
+                Value: Buffer.from(env).toString('base64'),
                 CreateIndex: 999999,
                 ModifyIndex: 999999,
               },
